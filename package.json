@@ -1,0 +1,20 @@
+{
+  "name": "yt-telegram-bot",
+  "version": "1.0.0",
+  "description": "Bot Telegram download YouTube MP3/MP4 dengan lirik",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "genius-lyrics-api": "^3.0.4",
+    "node-telegram-bot-api": "^0.64.0",
+    "p-queue": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
