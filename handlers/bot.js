@@ -225,13 +225,15 @@ async function handleSearchInput(bot, chatId, text) {
       setState(chatId, STEPS.WAITING_FORMAT, { selectedVideo: searchResults[0] });
 
       const video = searchResults[0];
+      const shortDesc = video.description ? `\n📝 <i>${escapeHtml(truncate(video.description, 200))}</i>\n` : '';
       await bot.sendMessage(chatId,
         `✅ <b>Video ditemukan!</b>\n\n` +
         `🎵 <b>${escapeHtml(video.title)}</b>\n` +
         `👤 ${escapeHtml(video.uploader)}\n` +
         `⏱️ Durasi: ${video.duration}\n` +
-        `👁️ Ditonton: ${Number(video.views).toLocaleString('id-ID')} kali\n\n` +
-        `Pilih format download:`,
+        `👁️ Ditonton: ${Number(video.views).toLocaleString('id-ID')} kali\n` +
+        shortDesc +
+        `\nPilih format download:`,
         {
           parse_mode: 'HTML',
           reply_markup: {
@@ -288,13 +290,15 @@ async function handleSongSelection(bot, chatId, messageId, index, state) {
   const selectedVideo = searchResults[index];
   setState(chatId, STEPS.WAITING_FORMAT, { selectedVideo });
 
+  const shortDesc = selectedVideo.description ? `\n📝 <i>${escapeHtml(truncate(selectedVideo.description, 200))}</i>\n` : '';
   await bot.editMessageText(
     `✅ <b>Lagu dipilih!</b>\n\n` +
     `🎵 <b>${escapeHtml(selectedVideo.title)}</b>\n` +
     `👤 ${escapeHtml(selectedVideo.uploader)}\n` +
     `⏱️ Durasi: ${selectedVideo.duration}\n` +
-    `👁️ Ditonton: ${Number(selectedVideo.views).toLocaleString('id-ID')} kali\n\n` +
-    `Pilih format download:`,
+    `👁️ Ditonton: ${Number(selectedVideo.views).toLocaleString('id-ID')} kali\n` +
+    shortDesc +
+    `\nPilih format download:`,
     {
       chat_id: chatId,
       message_id: messageId,
@@ -416,7 +420,8 @@ async function processDownload(bot, chatId, video, format, quality) {
     );
 
     // Kirim file ke Telegram
-    const caption = `🎵 <b>${escapeHtml(video.title)}</b>\n👤 ${escapeHtml(video.uploader)}\n⏱️ ${video.duration} | 👁️ ${Number(video.views).toLocaleString('id-ID')}x | 📦 ${formatBytes(fileSize)}`;
+    const shortDesc = video.description ? `\n📝 <i>${escapeHtml(truncate(video.description, 100))}</i>` : '';
+    const caption = `🎵 <b>${escapeHtml(video.title)}</b>\n👤 ${escapeHtml(video.uploader)}\n⏱️ ${video.duration} | 👁️ ${Number(video.views).toLocaleString('id-ID')}x | 📦 ${formatBytes(fileSize)}${shortDesc}`;
 
     if (format === 'mp3') {
       await bot.sendAudio(chatId, filePath, {
