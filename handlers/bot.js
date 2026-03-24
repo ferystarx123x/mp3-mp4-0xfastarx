@@ -357,7 +357,8 @@ async function handleQualitySelection(bot, chatId, messageId, format, quality, s
 
   await bot.editMessageText(
     `⏳ <b>Mempersiapkan download ${format.toUpperCase()} ${format === 'mp3' ? quality + 'kbps' : quality + 'p'}...</b>\n\n` +
-    `🎵 ${escapeHtml(selectedVideo.title)}`,
+    `🎵 ${escapeHtml(selectedVideo.title)}\n` +
+    `👁️ Ditonton: ${Number(selectedVideo.views).toLocaleString('id-ID')} kali`,
     { chat_id: chatId, message_id: messageId, parse_mode: 'HTML' }
   );
 
@@ -409,12 +410,13 @@ async function processDownload(bot, chatId, video, format, quality) {
     await bot.editMessageText(
       `📤 <b>Mengirim file ke Telegram...</b>\n\n` +
       `🎵 ${escapeHtml(truncate(video.title, 50))}\n` +
+      `👁️ Ditonton: ${Number(video.views).toLocaleString('id-ID')} kali\n` +
       `📦 Ukuran: ${formatBytes(fileSize)}`,
       { chat_id: chatId, message_id: statusMsg.message_id, parse_mode: 'HTML' }
     );
 
     // Kirim file ke Telegram
-    const caption = `🎵 <b>${escapeHtml(video.title)}</b>\n👤 ${escapeHtml(video.uploader)}\n⏱️ ${video.duration} | 📦 ${formatBytes(fileSize)}`;
+    const caption = `🎵 <b>${escapeHtml(video.title)}</b>\n👤 ${escapeHtml(video.uploader)}\n⏱️ ${video.duration} | 👁️ ${Number(video.views).toLocaleString('id-ID')}x | 📦 ${formatBytes(fileSize)}`;
 
     if (format === 'mp3') {
       await bot.sendAudio(chatId, filePath, {
