@@ -9,7 +9,7 @@ const { searchYouTube, getVideoInfo, downloadMP3, downloadMP4, deleteFile, getFi
 const { getLyrics, formatLyricsMessages } = require('../services/lyrics');
 require('dotenv').config();
 
-const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE) || 52428800; // 50MB
+const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE) || 314572800; // 300MB
 
 // ─────────────────────────────────────────
 //  REGISTER SEMUA HANDLER KE BOT
@@ -66,8 +66,8 @@ Aku bisa bantu kamu:
 • 🎬 <b>MP4 1080p</b> - Video Full HD
 
 <b>⚠️ Batas ukuran file:</b>
-• Telegram hanya bisa kirim file sampai <b>50MB</b>
-• Video panjang atau 1080p mungkin melebihi batas
+• Default 50MB, namun sudah diset ke <b>300MB</b> jika bot ini memakai Local API Server.
+• Video panjang atau 1080p mungkin melebihi batas.
 
 <b>🎵 Fitur Lirik:</b>
 • Lirik dicari otomatis setelah download selesai

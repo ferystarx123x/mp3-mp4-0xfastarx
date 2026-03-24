@@ -13,6 +13,7 @@ const { registerHandlers } = require('./handlers/bot');
 // ─────────────────────────────────────────
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const DOWNLOAD_PATH = process.env.DOWNLOAD_PATH || './downloads';
+const TELEGRAM_API_SERVER = process.env.TELEGRAM_API_SERVER;
 
 if (!TOKEN) {
   console.error('❌ TELEGRAM_BOT_TOKEN belum diset di file .env!');
@@ -63,7 +64,7 @@ if (!fs.existsSync(DOWNLOAD_PATH)) {
 // ─────────────────────────────────────────
 console.log('\n🤖 Menginisialisasi bot Telegram...');
 
-const bot = new TelegramBot(TOKEN, {
+const botOptions = {
   polling: {
     interval: 300,
     autoStart: true,
@@ -71,7 +72,14 @@ const bot = new TelegramBot(TOKEN, {
       timeout: 10
     }
   }
-});
+};
+
+if (TELEGRAM_API_SERVER) {
+  botOptions.baseApiUrl = TELEGRAM_API_SERVER;
+  console.log(`🌐 Menggunakan custom Telegram API Server: ${TELEGRAM_API_SERVER}`);
+}
+
+const bot = new TelegramBot(TOKEN, botOptions);
 
 // Register semua handler
 registerHandlers(bot);
