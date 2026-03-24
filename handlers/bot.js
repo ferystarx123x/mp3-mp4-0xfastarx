@@ -229,7 +229,8 @@ async function handleSearchInput(bot, chatId, text) {
         `✅ <b>Video ditemukan!</b>\n\n` +
         `🎵 <b>${escapeHtml(video.title)}</b>\n` +
         `👤 ${escapeHtml(video.uploader)}\n` +
-        `⏱️ Durasi: ${video.duration}\n\n` +
+        `⏱️ Durasi: ${video.duration}\n` +
+        `👁️ Ditonton: ${Number(video.views).toLocaleString('id-ID')} kali\n\n` +
         `Pilih format download:`,
         {
           parse_mode: 'HTML',
@@ -247,7 +248,7 @@ async function handleSearchInput(bot, chatId, text) {
 
       searchResults.forEach((song, i) => {
         resultText += `${i + 1}. <b>${escapeHtml(truncate(song.title, 60))}</b>\n`;
-        resultText += `   👤 ${escapeHtml(song.uploader)} | ⏱️ ${song.duration}\n\n`;
+        resultText += `   👤 ${escapeHtml(song.uploader)} | ⏱️ ${song.duration} | 👁️ ${Number(song.views).toLocaleString('id-ID')} views\n\n`;
 
         buttons.push([{
           text: `${i + 1}. ${truncate(song.title, 35)}`,
@@ -291,7 +292,8 @@ async function handleSongSelection(bot, chatId, messageId, index, state) {
     `✅ <b>Lagu dipilih!</b>\n\n` +
     `🎵 <b>${escapeHtml(selectedVideo.title)}</b>\n` +
     `👤 ${escapeHtml(selectedVideo.uploader)}\n` +
-    `⏱️ Durasi: ${selectedVideo.duration}\n\n` +
+    `⏱️ Durasi: ${selectedVideo.duration}\n` +
+    `👁️ Ditonton: ${Number(selectedVideo.views).toLocaleString('id-ID')} kali\n\n` +
     `Pilih format download:`,
     {
       chat_id: chatId,
@@ -373,7 +375,8 @@ async function processDownload(bot, chatId, video, format, quality) {
     statusMsg = await bot.sendMessage(chatId,
       `⬇️ <b>Downloading ${format.toUpperCase()}${quality ? ` ${quality}${format === 'mp3' ? 'kbps' : 'p'}` : ''}...</b>\n\n` +
       `🎵 <b>${escapeHtml(truncate(video.title, 50))}</b>\n` +
-      `⏱️ Durasi: ${video.duration}\n\n` +
+      `⏱️ Durasi: ${video.duration}\n` +
+      `👁️ Ditonton: ${Number(video.views).toLocaleString('id-ID')} kali\n\n` +
       `<i>Mohon tunggu, ini mungkin butuh beberapa menit...</i>`,
       { parse_mode: 'HTML' }
     );

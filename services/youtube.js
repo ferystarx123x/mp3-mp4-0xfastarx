@@ -78,7 +78,8 @@ async function searchYouTube(query) {
               title: data.title,
               duration: data.duration_string || formatSeconds(data.duration) || 'N/A',
               uploader: data.uploader || data.channel || data.uploader_id || 'Unknown',
-              url: `https://www.youtube.com/watch?v=${data.id}`
+              url: `https://www.youtube.com/watch?v=${data.id}`,
+              views: data.view_count || 0
             });
           }
         } catch (e) {
@@ -131,7 +132,8 @@ async function getVideoInfo(url) {
           duration: data.duration_string || formatSeconds(data.duration) || 'N/A',
           uploader: data.uploader || data.channel || data.uploader_id || 'Unknown',
           filesize: data.filesize_approx || null,
-          url: url
+          url: url,
+          views: data.view_count || 0
         });
       } catch (e) {
         reject(new Error('Gagal parse info video: ' + e.message));

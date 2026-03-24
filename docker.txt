@@ -1,0 +1,8 @@
+docker run -d -p 8081:8081 \
+  --name=telegram-bot-api \
+  --restart=always \
+  -v telegram-bot-api-data:/var/lib/telegram-bot-api \
+  -e TELEGRAM_API_ID="32463250" \
+  -e TELEGRAM_API_HASH="55446ebfccbba0ccb6e34be2a87fb0df" \
+  aiogram/telegram-bot-api:latest \
+  --local -d /var/lib/telegram-bot-api
